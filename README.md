@@ -63,7 +63,9 @@ streamlit run app.py
 
 ## 📸 Demo
 
-(Add screenshots here)
+## 📸 Demo
+
+![Screenshot](screenshot.png)
 
 ---
 
