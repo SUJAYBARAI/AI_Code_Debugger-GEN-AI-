@@ -1,8 +1,7 @@
 
 
 import google.generativeai as genai
-from analyzer import check_syntax
-
+from backend.analyzer import check_syntax
 # 🔑 API KEY
 genai.configure(api_key="AIzaSyCO9CYCPiVhoZIbQNF5jKe093pzbhDI9uQ")
 
