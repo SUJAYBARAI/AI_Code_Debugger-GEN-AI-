@@ -1,9 +1,9 @@
-
-
+import os
 import google.generativeai as genai
 from backend.analyzer import check_syntax
-# 🔑 API KEY
-genai.configure(api_key="AIzaSyCO9CYCPiVhoZIbQNF5jKe093pzbhDI9uQ")
+
+# 🔐 SECURE API KEY (ENV VARIABLE SE)
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
 model = genai.GenerativeModel("gemini-2.5-flash")
 
