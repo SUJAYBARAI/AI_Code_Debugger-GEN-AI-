@@ -2,8 +2,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from backend.llm import analyze_code
 from backend.executor import run_code
-from github_analyzer import clone_repo, read_files
-
+from backend.github_analyzer import clone_repo, read_files
 app = FastAPI()
 
 class CodeRequest(BaseModel):
