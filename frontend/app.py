@@ -1,19 +1,19 @@
 import streamlit as st
 import requests
 
+# 🔗 BACKEND URL
+BASE_URL = "https://ai-code-debugger-gen-ai.onrender.com"
+
 st.set_page_config(page_title="AI Code Debugger", layout="wide")
 
 # 🎨 DARK UI + BIG FONT
 st.markdown("""
 <style>
-
-/* Dark background */
 [data-testid="stAppViewContainer"] {
     background: url("https://images.unsplash.com/photo-1510915228340-29c85a43dcfe") no-repeat center center fixed;
     background-size: cover;
 }
 
-/* Overlay */
 .main {
     background: rgba(0, 0, 0, 0.75);
     backdrop-filter: blur(12px);
@@ -21,13 +21,11 @@ st.markdown("""
     padding: 20px;
 }
 
-/* Fonts */
 html, body, [class*="css"] {
     font-size: 18px;
     color: white;
 }
 
-/* Title */
 h1 {
     text-align: center;
     font-size: 50px;
@@ -35,7 +33,6 @@ h1 {
     text-shadow: 0px 0px 20px #00f5ff;
 }
 
-/* Buttons */
 .stButton>button {
     font-size: 18px;
     background: linear-gradient(90deg, #6366f1, #06b6d4);
@@ -50,7 +47,6 @@ h1 {
     box-shadow: 0px 0px 20px #06b6d4;
 }
 
-/* Animation */
 @keyframes fadeIn {
     from {opacity: 0; transform: translateY(10px);}
     to {opacity: 1; transform: translateY(0);}
@@ -60,11 +56,9 @@ h1 {
     animation: fadeIn 0.5s ease-in;
 }
 
-/* Sidebar */
 [data-testid="stSidebar"] {
     background: rgba(0, 0, 0, 0.85);
 }
-
 </style>
 """, unsafe_allow_html=True)
 
@@ -88,11 +82,10 @@ with st.sidebar:
     st.title("⚙ Controls")
 
     language = st.selectbox(
-    "Select Language",
-    ["Python", "C++", "Java", "JavaScript"]
-)
+        "Select Language",
+        ["Python", "C++", "Java", "JavaScript"]
+    )
 
-    # Clear only output
     if st.button("🧹 Clear Output"):
         st.session_state.current_result = ""
 
@@ -107,33 +100,37 @@ with col1:
     if st.button("🚀 Analyze Code"):
         if code_input.strip():
             with st.spinner("🤖 AI thinking..."):
-                res = requests.post(
-                    "http://127.0.0.1:8000/analyze",
-                    json={"code": code_input, "language": language}
-                )
-                result = res.json().get("result", "")
+                try:
+                    res = requests.post(
+                        f"{BASE_URL}/analyze",
+                        json={"code": code_input, "language": language}
+                    )
+                    result = res.json().get("result", "No response")
 
-                # store current output
-                st.session_state.current_result = result
+                    st.session_state.current_result = result
 
-                # save history
-                st.session_state.history.append({
-                    "code": code_input,
-                    "result": result
-                })
+                    st.session_state.history.append({
+                        "code": code_input,
+                        "result": result
+                    })
+                except:
+                    st.error("⚠️ Backend connection error")
 
     if st.button("▶ Run Code"):
-        res = requests.post(
-            "http://127.0.0.1:8000/run",
-            json={"code": code_input, "language": language}
-        )
-        out = res.json()
+        try:
+            res = requests.post(
+                f"{BASE_URL}/run",
+                json={"code": code_input, "language": language}
+            )
+            out = res.json()
 
-        st.markdown("### 🖥 Output")
-        if out.get("output"):
-            st.code(out["output"])
-        if out.get("error"):
-            st.error(out["error"])
+            st.markdown("### 🖥 Output")
+            if out.get("output"):
+                st.code(out["output"])
+            if out.get("error"):
+                st.error(out["error"])
+        except:
+            st.error("⚠️ Backend connection error")
 
 # 📊 OUTPUT
 with col2:
@@ -173,13 +170,16 @@ repo = st.text_input("Enter Repo URL")
 if st.button("Analyze Repo"):
     if repo:
         with st.spinner("Analyzing repo..."):
-            res = requests.post(
-                "http://127.0.0.1:8000/analyze-repo",
-                json={"repo_url": repo}
-            )
-            st.code(res.json().get("result", ""))
+            try:
+                res = requests.post(
+                    f"{BASE_URL}/analyze-repo",
+                    json={"repo_url": repo}
+                )
+                st.code(res.json().get("result", "No response"))
+            except:
+                st.error("⚠️ Backend connection error")
 
-# 📜 HISTORY (SAFE)
+# 📜 HISTORY
 st.markdown("## 📜 History")
 
 for item in reversed(st.session_state.history):
