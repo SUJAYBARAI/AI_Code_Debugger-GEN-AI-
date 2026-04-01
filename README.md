@@ -16,7 +16,7 @@ An advanced **Generative AI (GenAI) powered developer assistant** that detects b
   - C++
   - Java
   - JavaScript
-- 🔗 GitHub Repository Analyzer
+- 🔗 GitHub Repository Analyzer (using GitPython)
 - 🎨 Modern Interactive UI (Streamlit + Custom CSS)
 
 ---
@@ -29,6 +29,8 @@ An advanced **Generative AI (GenAI) powered developer assistant** that detects b
 - Static Analysis: Python AST
 - Execution Engine: Subprocess-based multi-language runner
 - Version Control: Git & GitHub
+- Deployment: Render (Backend) + Streamlit Cloud (Frontend)
+- Repository Analysis: GitPython
 
 ---
 
@@ -65,6 +67,10 @@ streamlit run app.py
 
 ![Screenshot](Screenshot.png)
 
+## 🌐 Live Demo
+
+👉 https://jsczuz3oaeckphwhntqyxe.streamlit.app/
+
 ---
 
 ## 💡 Author
@@ -75,10 +81,11 @@ Sujay Barai
 
 ## 🎯 Key Highlights
 
-- Built a GenAI-powered debugging system  
-- Combines LLM + static analysis (AST)  
-- Supports multi-language execution  
-- Performs repository-level analysis  
+- Built a full-stack GenAI-powered debugging system  
+- Combines LLM reasoning (Gemini API) + static analysis (AST)  
+- Supports multi-language execution and real-time debugging  
+- Performs repository-level analysis using GitPython  
+- Deployed using Render and Streamlit Cloud  
 
 ---
 
